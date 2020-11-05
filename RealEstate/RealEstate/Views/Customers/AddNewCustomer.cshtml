@@ -1,0 +1,60 @@
+﻿@model CustomerModel
+
+<header class="p-5 bg-success">
+    <h1 class="display-4 text-light text-capitalize">customer form</h1>
+</header>
+<section id="customerForm p-5">
+    <div class="container mt-3">
+
+        @if (ViewBag.IsSuccess)
+        {
+            <div class="alert alert-success alert-dismissible fade show w-50 m-auto" role="alert">
+                <strong>Great!</strong> You added new customer successfully. <br />
+                Click <a asp-controller="Customers" asp-action="GetAllCustomers">here</a> to view your customers
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+        <div class="row my-3">
+            <div class="card  col-10 col-sm-8 col-md-6 mx-auto text-center bg-secondary p-3">
+                <div class="card-header">
+                    <h3 class="card-title text-uppercase">
+                        <strong>create new customer</strong>
+                    </h3>
+                </div>
+
+                <!-- form -->
+                <form method="post" asp-action="AddNewCustomer" asp-controller="Customers">
+                    <div class="form-group mt-4">
+                        <input asp-for="Name" class="form-control form-control-lg"
+                               placeholder="Full Name" id="fullName" required>
+                        <div class="invalid-feedback">Please fill out this field.</div>
+                    </div>
+
+                    <div class="form-group mt-4">
+                        <input asp-for="Id" class="form-control" placeholder="CPR" id="cpr"
+                               pattern="[0-9]{9}" title="CPR number is 9 digits long." required>
+                        <div class="invalid-feedback">Please fill out this field.</div>
+                    </div>
+
+                    <div class="form-group">
+                        <input asp-for="Email" class="form-control" id="email" placeholder="EMAIL">
+                    </div>
+
+                    <div class="form-group">
+                        <input asp-for="Phone" class="form-control" id="phone" placeholder="PHONE"
+                               pattern="[0-9]{8}" title="Bahraini phone number is 8 digits long">
+                    </div>
+
+                    <button type="submit" class="btn btn-block btn-outline-warning text-uppercase"
+                            value="Add Customer">
+                        create customer
+                    </button>
+                </form>
+                <!-- end form -->
+            </div>
+            <!-- end of card -->
+        </div>
+    </div>
+</section>

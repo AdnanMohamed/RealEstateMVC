@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/js/all.js"></script>
+
+    <!-- Google fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500&display=swap" rel="stylesheet">
+
+    <link href="~/css/Style.css" rel="stylesheet" />
+    <link href="~/css/customers.css" rel="stylesheet" />
+</head>
+<body>
+
+    <!-- navbar -->
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+        <!-- Brand -->
+        <a class="navbar-brand text-uppercase" href="#">
+            alsagheer real estate
+        </a>
+
+        <!-- Toggler/collapsibe Button -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar links -->
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link text-capitalize text-light nav-text" asp-controller="Home" asp-action="Index">main</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-capitalize text-light" asp-controller="Customers" asp-action="GetAllCustomers">
+                        <i class="fas fa-users fa-2x text-warning"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-capitalize text-light" href="deals.html">
+                        <i class="fas fa-handshake fa-2x hand-color"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-capitalize text-light" href="properties.html">
+                        <i class="fas fa-home fa-2x text-info"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- end of links -->
+    </nav>
+    <!-- end of navbar -->
+
+    <div>
+        @RenderBody()
+    </div>
+
+    <!-- jquery -->
+    <script src="~/js/jquery-3.5.1.min.js"></script>
+    <!-- bootstrap js -->
+    <script src="~/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

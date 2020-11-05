@@ -10,20 +10,31 @@ namespace RealEstate.Controllers
 {
     public class CustomersController : Controller
     {
-        private readonly CustomersRepository customersDB;
+        private readonly CustomersRepository _customersDB;  // The table of customers
 
-        public CustomersController()
+        public CustomersController(CustomersRepository customersDB)
         {
-            customersDB = new CustomersRepository();
-        }
-        public string Index()
-        {
-            return "Hello From Customers!";
+            _customersDB = customersDB;
         }
 
-        public List<Customer> getAllCustomers()
+        public async Task<ViewResult> GetAllCustomers()
         {
-            return customersDB.getCustomers();
+            var data = await _customersDB.getCustomers();
+            return View(data);
+        }
+
+        public ViewResult AddNewCustomer(bool isSuccess = false, string customerId = "")
+        {
+            ViewBag.IsSuccess = isSuccess;
+            ViewBag.CustomerId = customerId;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddNewCustomer(CustomerModel customer)
+        {
+            string id = await _customersDB.AddNewCustomer(customer);
+            return RedirectToAction(nameof(AddNewCustomer), new { isSuccess = true, customerId = id });
         }
     }
 }

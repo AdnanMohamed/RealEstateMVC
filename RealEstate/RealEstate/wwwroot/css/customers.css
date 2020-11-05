@@ -1,0 +1,19 @@
+﻿td > a {
+    color: inherit;
+}
+
+td > a:hover {
+    color: rgba(237, 228, 47, 1);
+}
+
+td {
+    font-size: 1.2rem;
+}
+
+.cells-color {
+    background-color: rgba(155, 88, 209, 1);
+}
+
+.title-margin {
+    margin-top: 5rem;
+}

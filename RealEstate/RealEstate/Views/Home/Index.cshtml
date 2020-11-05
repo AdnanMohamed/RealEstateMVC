@@ -1,16 +1,74 @@
-﻿
-@{
-    Layout = null;
-}
+﻿<!-- menu cards  -->
+<section id="menuItems" class="py-5 height-100">
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-sm-4 my-3">
+                <!-- Deal Card -->
+                <div class="card">
+                    <div class="card-header text-center">
+                        <i class="fas fa-handshake fa-5x hand-color"></i>
+                    </div>
 
-<!DOCTYPE html>
+                    <div class="card-title p-2">
+                        <h3 class="h3 text-capitalize">deals</h3>
+                    </div>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>mainPage</title>
-</head>
-<body>
-    <h1>Hello World</h1>
-</body>
-</html>
+                    <div class="card-footer">
+                        <a href="dealForm.html" class="btn btn-outline-success text-capitalize">add deal</a>
+                        <a href="deals.html" class="btn btn-outline-primary text-capitalize">view deals</a>
+                    </div>
+                </div>
+                <!-- end of Deal card -->
+            </div>
+            <!-- end of column-->
+
+            <div class="col-sm-4 my-3">
+
+                <!-- customers card -->
+                <div class="card">
+                    <div class="card-header text-center">
+                        <i class="fas fa-users fa-5x"></i>
+                    </div>
+
+                    <div class="card-title p-2">
+                        <h3 class="h3 text-capitalize">customers</h3>
+                    </div>
+
+                    <div class="card-footer">
+                        <a asp-controller="Customers" asp-action="AddNewCustomer"class="btn btn-outline-success text-capitalize">add customer</a>
+                        <a asp-controller="Customers" asp-action="GetAllCustomers" class="btn btn-outline-primary text-capitalize">view customers</a>
+                    </div>
+                </div>
+                <!-- end of customers card -->
+            </div>
+            <!-- end of column-->
+
+            <div class="col-sm-4 my-3">
+                <!-- Properties card -->
+                <div class="card">
+                    <div class="card-header text-center">
+                        <i class="fas fa-home fa-5x text-info"></i>
+                    </div>
+
+                    <div class="card-title p-2">
+                        <h3 class="h3 text-capitalize">properties</h3>
+                    </div>
+
+                    <div class="card-footer">
+                        <a href="propertyForm.html" class="btn btn-outline-success text-capitalize">add property</a>
+                        <a href="properties.html" class="btn btn-outline-primary text-capitalize">view properties</a>
+                    </div>
+                </div>
+                <!-- end of Property card -->
+            </div>
+            <!-- end of column-->
+        </div>
+        <!-- end of row -->
+    </div>
+    <!-- end of container -->
+</section>
+<!-- end of menu cards section -->
+<!-- jquery -->
+<script src="~/js/jquery-3.5.1.min.js"></script>
+<!-- bootstrap js -->
+<script src="~/js/bootstrap.bundle.min.js"></script>

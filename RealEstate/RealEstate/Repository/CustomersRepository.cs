@@ -1,4 +1,6 @@
-﻿using RealEstate.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using RealEstate.Data;
+using RealEstate.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,27 +10,60 @@ namespace RealEstate.Repository
 {
     public class CustomersRepository
     {
+        private readonly MyCustomersContext _context = null;
 
-        public CustomersRepository()
+        public CustomersRepository(MyCustomersContext context)
         {
-            Customers = new List<Customer>()
+            _context = context;
+        }
+
+        public async Task<string> AddNewCustomer(CustomerModel model)
+        {
+            var newCustomer = new Customers()
             {
-                new Customer(){Id = 1, Name= "Adnan Mohamed", Email="adnan@gmail.com"},
-                new Customer(){Id = 2, Name="Ebraheem Nezar", Email="ibra@gmail.com"},
-                new Customer(){Id = 3, Name="Ali Yaseen", Email="ali@gmail.com"},
-                new Customer(){Id = 4, Name="Biliardo Davinchi", Email="bil@gmail.com"}
+                Id = model.Id,
+                Email = model.Email,
+                Phone = model.Phone,
+                Name = model.Name
+            };
+
+            await _context.Customers.AddAsync(newCustomer);
+            await _context.SaveChangesAsync();
+
+            return newCustomer.Id;
+
+        }
+        public async Task<List<CustomerModel>> getCustomers()
+        {
+            var customers = new List<CustomerModel>();
+            var allCustomers = await _context.Customers.ToListAsync();
+            if(allCustomers?.Any() == true)
+            {
+                foreach (var customer in allCustomers)
+                {
+                    customers.Add(new CustomerModel()
+                    {
+                        Id = customer.Id,
+                        Name = customer.Name,
+                        Email = customer.Email,
+                        Phone = customer.Phone
+                    });
+                }
+            }
+            return customers;
+        }
+
+        public CustomerModel getCustomer(string id)
+        {
+            return DataSource().Where(customer => customer.Id == id).FirstOrDefault();
+        }
+
+        private List<CustomerModel> DataSource()
+        {
+            return new List<CustomerModel>()
+            {
+                new CustomerModel(){Id="32434", Name="Adnan Mohamed", Email="adnan@gmail.com", Phone="2345345"}
             };
         }
-        public List<Customer> getCustomers()
-        {
-            return Customers;
-        }
-
-        public Customer getCustomer(int id)
-        {
-            return Customers.Where(customer => customer.Id == id).FirstOrDefault();
-        }
-
-        private List<Customer> Customers;
     }
 }

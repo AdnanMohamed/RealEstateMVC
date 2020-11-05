@@ -1,0 +1,51 @@
+﻿@model IEnumerable<RealEstate.Models.CustomerModel>
+
+
+<section id="customers p-5">
+    <div class="container">
+
+        <!-- title -->
+        <div class="row text-center title-margin">
+            <div class="col">
+                <h1 class="display-4 text-uppercase mb-0 text-light">
+                    <strong>customers</strong>
+                    <span><i class="fas fa-address-book text-warning"></i></span>
+                </h1>
+            </div>
+        </div>
+        <!-- end of title -->
+
+        <div class="row mt-5">
+            <div class="col-md-10 py-3 mx-auto">
+
+                <a asp-controller="Customers" asp-action="addnewcustomer" class="btn btn-success mb-2">
+                    + new customer
+                </a>
+
+                <table class="table table-hover cells-color">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>First/Last Name</th>
+                            <th>CPR</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(var customer in Model)
+                        {
+                            <tr>
+                                <td>@customer.Name</td>
+                                <td>@customer.Id</td>
+                                <td><a href="mailto:adoony@gmail.com">@customer.Email</a></td>
+                                <td>@customer.Phone</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+</section>
