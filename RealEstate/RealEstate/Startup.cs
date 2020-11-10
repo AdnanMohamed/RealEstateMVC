@@ -20,13 +20,14 @@ namespace RealEstate
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddDbContext<MyCustomersContext>(options =>
-                options.UseSqlServer("Server=LAPTOP-3L1O4PPT\\SQLEXPRESS;Database=MyCustomers; Integrated Security=True;")
+            services.AddDbContext<RealEstateContext>(options =>
+                options.UseSqlServer("Server=LAPTOP-3L1O4PPT\\SQLEXPRESS;Database=RealEstate; Integrated Security=True;")
             );
 #if DEBUG
             services.AddRazorPages().AddRazorRuntimeCompilation();
 #endif
             services.AddScoped<CustomersRepository, CustomersRepository>();
+            services.AddScoped<PropertiesRepository, PropertiesRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

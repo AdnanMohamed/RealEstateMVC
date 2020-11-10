@@ -19,10 +19,14 @@ namespace RealEstate.Controllers
 
         public async Task<ViewResult> GetAllCustomers()
         {
-            var data = await _customersDB.getCustomers();
-            return View(data);
+            var allCustomers = await _customersDB.getCustomers();
+            return View(allCustomers);
         }
 
+        public async Task<CustomerModel> GetCustomer(string id)
+        {
+            return await _customersDB.GetCustomer(id);
+        }
         public ViewResult AddNewCustomer(bool isSuccess = false, string customerId = "")
         {
             ViewBag.IsSuccess = isSuccess;
@@ -30,11 +34,43 @@ namespace RealEstate.Controllers
             return View();
         }
 
+        public async Task<ViewResult> UpdateCustomer(string id, bool isSuccess = false)
+        {
+            ViewBag.IsSuccess = isSuccess;
+            CustomerModel customer = await _customersDB.GetCustomer(id);
+            return View(customer);
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddNewCustomer(CustomerModel customer)
         {
-            string id = await _customersDB.AddNewCustomer(customer);
-            return RedirectToAction(nameof(AddNewCustomer), new { isSuccess = true, customerId = id });
+            if (ModelState.IsValid)
+            {
+                string id = await _customersDB.AddNewCustomer(customer);
+                return RedirectToAction(nameof(AddNewCustomer), new { isSuccess = true, customerId = id });
+            }
+            ViewBag.IsSuccess = false;
+            ViewBag.CustomerId = customer.Id;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteCustomer(string id)
+        {
+            await _customersDB.DeleteCustomer(id);
+            return RedirectToAction(nameof(GetAllCustomers));
+        }
+
+        [HttpPost]
+        public IActionResult UpdateCustomer(CustomerModel customer)
+        {
+            if (ModelState.IsValid)
+            {
+                _customersDB.UpdateCustomer(customer);
+                return RedirectToAction(nameof(UpdateCustomer), new { isSuccess = true });
+            }
+            ViewBag.IsSuccess = false;
+            return View(customer);
         }
     }
 }

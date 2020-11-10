@@ -5,6 +5,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20201107113707_Initial.cs" />
+    <Compile Remove="Migrations\20201107113707_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20201107113755_init.cs" />
+    <Compile Remove="Migrations\20201107113755_init.Designer.cs" />
+    <Compile Remove="Migrations\20201107154802_init.cs" />
+    <Compile Remove="Migrations\20201107154802_init.Designer.cs" />
+    <Compile Remove="Migrations\20201107162453_init.cs" />
+    <Compile Remove="Migrations\20201107162453_init.Designer.cs" />
+    <Compile Remove="Migrations\20201107164340_init.cs" />
+    <Compile Remove="Migrations\20201107164340_init.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.9">

@@ -1,0 +1,63 @@
+﻿@model IEnumerable<PropertyModel>
+
+<section id="customers p-5">
+    <div class="container">
+
+        <!-- title -->
+        <div class="row text-center title-margin">
+            <div class="col">
+                <h1 class="display-4 text-uppercase mb-0 text-light">
+                    <strong>properties</strong>
+                    <span><i class="fas fa-hotel text-warning"></i></span>
+                </h1>
+            </div>
+        </div>
+        <!-- end of title -->
+
+        <div class="row mt-5">
+            <div class="col-md-10 py-3 mx-auto">
+
+                <a asp-controller="Properties" asp-action="AddNewProperty" class="btn btn-success mb-2">
+                    + new property
+                </a>
+
+                <table class="table table-hover cells-color">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Property ID</th>
+                            <th>Owner</th>
+                            <th>Type</th>
+                            <th>Location</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var property in Model) { 
+                        <tr>
+                            <td>@property.Id</td>
+                            <td>@property.CustomerName</td>
+                            <td>@property.PropertyType</td>
+                            <td><a href= @property.LocationURL>@property.Location</a></td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <a asp-controller="Properties" asp-action="UpdateProperty"
+                                       asp-route-id="@property.Id" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                                    <form method="post">
+                                        <button onclick="if(!confirm('Are you sure ?')){ return false; }" type="submit" asp-controller="Properties"
+                                                asp-action="DeleteProperty" asp-route-id="@property.Id"
+                                                class="btn btn-danger">
+                                            <i class="far fa-trash-alt"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+</section>

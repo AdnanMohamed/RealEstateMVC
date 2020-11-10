@@ -10,16 +10,16 @@ namespace RealEstate.Repository
 {
     public class CustomersRepository
     {
-        private readonly MyCustomersContext _context = null;
+        private readonly RealEstateContext _context = null;
 
-        public CustomersRepository(MyCustomersContext context)
+        public CustomersRepository(RealEstateContext context)
         {
             _context = context;
         }
 
         public async Task<string> AddNewCustomer(CustomerModel model)
         {
-            var newCustomer = new Customers()
+            var newCustomer = new Customer()
             {
                 Id = model.Id,
                 Email = model.Email,
@@ -53,9 +53,41 @@ namespace RealEstate.Repository
             return customers;
         }
 
-        public CustomerModel getCustomer(string id)
+        public async Task<CustomerModel> GetCustomer(string id)
         {
-            return DataSource().Where(customer => customer.Id == id).FirstOrDefault();
+            var cust = await _context.Customers.FindAsync(id);
+            return new CustomerModel()
+            {
+                Id = cust.Id,
+                Name = cust.Name,
+                Email = cust.Email,
+                Phone = cust.Phone
+            };
+        }
+
+        public async Task<bool> DeleteCustomer(string id)
+        {
+            var cust = await _context.Customers.FindAsync(id);
+            if (cust != null)
+            {
+                _context.Customers.Remove(cust);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
+
+        public void UpdateCustomer(CustomerModel customerModel)
+        {
+            var customer = new Customer()
+            {
+                Id = customerModel.Id,
+                Name = customerModel.Name,
+                Email = customerModel.Email,
+                Phone = customerModel.Phone
+            };
+            _context.Customers.Update(customer);
+            _context.SaveChanges();
         }
 
         private List<CustomerModel> DataSource()

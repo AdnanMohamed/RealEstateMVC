@@ -28,23 +28,25 @@
                 <form method="post" asp-action="AddNewCustomer" asp-controller="Customers">
                     <div class="form-group mt-4">
                         <input asp-for="Name" class="form-control form-control-lg"
-                               placeholder="Full Name" id="fullName" required>
-                        <div class="invalid-feedback">Please fill out this field.</div>
+                               placeholder="Full Name" id="fullName">
+                        @*<div class="invalid-feedback">Please fill out this field.</div>*@
+                        <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
 
                     <div class="form-group mt-4">
-                        <input asp-for="Id" class="form-control" placeholder="CPR" id="cpr"
-                               pattern="[0-9]{9}" title="CPR number is 9 digits long." required>
-                        <div class="invalid-feedback">Please fill out this field.</div>
+                        <input asp-for="Id" class="form-control" placeholder="CPR" id="cpr">
+                        @*<div class="invalid-feedback">Please fill out this field.</div>*@
+                        <span asp-validation-for="Id" class="text-danger"></span>
                     </div>
 
                     <div class="form-group">
                         <input asp-for="Email" class="form-control" id="email" placeholder="EMAIL">
+                        <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
 
                     <div class="form-group">
-                        <input asp-for="Phone" class="form-control" id="phone" placeholder="PHONE"
-                               pattern="[0-9]{8}" title="Bahraini phone number is 8 digits long">
+                        <input asp-for="Phone" class="form-control" id="phone" placeholder="PHONE">
+                        <span asp-validation-for="Phone" class="text-danger"></span>
                     </div>
 
                     <button type="submit" class="btn btn-block btn-outline-warning text-uppercase"

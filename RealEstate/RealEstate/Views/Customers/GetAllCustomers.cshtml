@@ -1,4 +1,4 @@
-﻿@model IEnumerable<RealEstate.Models.CustomerModel>
+﻿@model IEnumerable<CustomerModel>
 
 
 <section id="customers p-5">
@@ -29,17 +29,29 @@
                             <th>CPR</th>
                             <th>Email</th>
                             <th>Phone</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach(var customer in Model)
                         {
-                            <tr>
-                                <td>@customer.Name</td>
-                                <td>@customer.Id</td>
-                                <td><a href="mailto:adoony@gmail.com">@customer.Email</a></td>
-                                <td>@customer.Phone</td>
-                            </tr>
+                        <tr>
+                            <td>@customer.Name</td>
+                            <td>@customer.Id</td>
+                            <td><a href="mailto:@customer.Email">@customer.Email</a></td>
+                            <td>@customer.Phone</td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <a asp-controller="Customers" asp-action="UpdateCustomer" 
+                                       asp-route-id="@customer.Id" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                                    <form method="post">
+                                        <button onclick="if(!confirm('Are you sure ?')){ return false; }" type="submit" asp-controller="Customers" 
+                                               asp-action="DeleteCustomer" asp-route-id="@customer.Id" 
+                                               class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
                         }
                     </tbody>
                 </table>

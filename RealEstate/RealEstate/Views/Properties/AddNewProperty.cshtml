@@ -1,0 +1,76 @@
+﻿@model PropertyModel
+<header class="p-5 bg-success">
+    <h1 class="display-4 text-light text-capitalize">property form</h1>
+</header>
+<section id="customerForm p-5">
+    <div class="container mt-3">
+        @if (ViewBag.IsSuccess)
+        {
+            <div class="alert alert-success alert-dismissible fade show w-50 m-auto" role="alert">
+                <strong>Great!</strong> You added new property successfully. <br />
+                Click <a asp-controller="Properties" asp-action="GetAllProperties">here</a> to view your customers
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+        <div class="row my-3">
+            <div class="card col-10 col-sm-8 col-md-6 mx-auto text-center bg-secondary p-3">
+                <div class="card-header">
+                    <h3 class="card-title text-uppercase">
+                        <strong>create property</strong>
+                    </h3>
+                </div>
+
+                <!-- form -->
+                <form method="post" asp-controller="Properties" asp-action="AddNewProperty">
+                    <div class="form-group mt-4">
+                        <input asp-for="Id" class="form-control" placeholder="Property ID" id="propertyID">
+                        @*<div class="invalid-feedback">Please fill out this field.</div>*@
+                        <span asp-validation-for="Id" class="text-danger"></span>
+                    </div>
+
+                    <div class="input-group form-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="owner">Owner:</label>
+                        </div>
+                        <select asp-for="CustomerId" class="custom-select" id="owner" asp-items="ViewBag.Customers">
+                            <option value="">Select Owner</option>
+                        </select>
+
+                        <div class="input-group-append">
+                            <a asp-controller="Customers" asp-action="AddNewCustomer" class="btn btn-primary">create new owner</a>
+                        </div>
+                        <div><span asp-validation-for="CustomerId" class="text-danger"></span></div>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="propertyType">Property Type:</label>
+                        </div>
+                        <select asp-for="PropertyType" class="custom-select" id="propertyType" asp-items="ViewBag.PropertyTypes">
+                            <option value="">Select Type:</option>
+                        </select>
+                        <span asp-validation-for="PropertyType" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mt-4">
+                        <input asp-for="Location" class="form-control"
+                               placeholder="Location Name" id="location">
+                    </div>
+
+                    <div class="form-group mt-4">
+                        <input asp-for="LocationURL" class="form-control"
+                               placeholder="Location URL" id="location">
+                    </div>
+
+                    <button type="submit" class="btn btn-block btn-outline-warning text-uppercase">
+                        create property
+                    </button>
+                </form>
+                <!-- end form -->
+            </div>
+            <!-- end of card -->
+        </div>
+    </div>
+</section>
