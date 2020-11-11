@@ -1,0 +1,64 @@
+﻿@model List<DealModel>;
+
+<section id="customers p-5">
+    <div class="container mt-3">
+
+        <!-- title -->
+        <div class="row text-center title-margin">
+            <div class="col">
+                <h1 class="display-4 text-uppercase mb-0 text-light">
+                    <strong>deals</strong>
+                    <span><i class="fas fa-file-signature"></i></span>
+                </h1>
+            </div>
+        </div>
+        <!-- end of title -->
+
+        <div class="row mt-5">
+            <div class="col-md-10 py-3 mx-auto">
+
+                <a asp-controller="Deals" asp-action="AddNewDeal" class="btn btn-success mb-2">
+                    + new deal
+                </a>
+
+                <table class="table table-hover cells-color">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Deal ID</th>
+                            <th>Salesperson</th>
+                            <th>Buyer</th>
+                            <th>Date</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var deal in Model)
+                        {
+                            <tr>
+                                <td>@deal.Id</td>
+                                <td>@deal.Salesperson</td>
+                                <td>@deal.Customer</td>
+                                <td>@deal.Date</td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <a asp-controller="Customers" asp-action="UpdateCustomer"
+                                           asp-route-id="@deal.Id" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                                        <form method="post">
+                                            <button onclick="if(!confirm('Are you sure you want to delete this deal?')){ return false; }" 
+                                                    type="submit" asp-controller="Deals" asp-action="DeleteDeal" asp-route-id="@deal.Id"
+                                                    class="btn btn-danger">
+                                                <i class="far fa-trash-alt"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+</section>

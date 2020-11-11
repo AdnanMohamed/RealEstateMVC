@@ -10,8 +10,8 @@ using RealEstate.Data;
 namespace RealEstate.Migrations
 {
     [DbContext(typeof(RealEstateContext))]
-    [Migration("20201109092539_m1")]
-    partial class m1
+    [Migration("20201111114543_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -48,7 +48,7 @@ namespace RealEstate.Migrations
                     b.Property<decimal>("Commission")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<DateTime?>("CreatedOn")
+                    b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CustomerId")
@@ -67,7 +67,9 @@ namespace RealEstate.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.HasIndex("PropertyId");
+                    b.HasIndex("PropertyId")
+                        .IsUnique()
+                        .HasFilter("[PropertyId] IS NOT NULL");
 
                     b.HasIndex("SalespersonId");
 
@@ -116,15 +118,16 @@ namespace RealEstate.Migrations
             modelBuilder.Entity("RealEstate.Data.Deal", b =>
                 {
                     b.HasOne("RealEstate.Data.Customer", "Customer")
-                        .WithMany()
+                        .WithMany("Deals")
                         .HasForeignKey("CustomerId");
 
                     b.HasOne("RealEstate.Data.Property", "Property")
-                        .WithMany()
-                        .HasForeignKey("PropertyId");
+                        .WithOne("Deal")
+                        .HasForeignKey("RealEstate.Data.Deal", "PropertyId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("RealEstate.Data.Salesperson", "Salesperson")
-                        .WithMany()
+                        .WithMany("Deals")
                         .HasForeignKey("SalespersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

@@ -3,13 +3,23 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RealEstate.Migrations
 {
-    public partial class m1 : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Properties_Customers_CustomerId",
-                table: "Properties");
+            migrationBuilder.CreateTable(
+                name: "Customers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    Phone = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Customers", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "Salespeople",
@@ -25,6 +35,27 @@ namespace RealEstate.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Properties",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    PropertyType = table.Column<string>(nullable: true),
+                    Location = table.Column<string>(nullable: true),
+                    LocationURL = table.Column<string>(nullable: true),
+                    CustomerId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Properties", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Properties_Customers_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Deals",
                 columns: table => new
                 {
@@ -34,7 +65,7 @@ namespace RealEstate.Migrations
                     PropertyId = table.Column<string>(nullable: true),
                     Price = table.Column<decimal>(nullable: false),
                     Commission = table.Column<decimal>(nullable: false),
-                    CreatedOn = table.Column<DateTime>(nullable: true)
+                    CreatedOn = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -50,7 +81,7 @@ namespace RealEstate.Migrations
                         column: x => x.PropertyId,
                         principalTable: "Properties",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Deals_Salespeople_SalespersonId",
                         column: x => x.SalespersonId,
@@ -67,41 +98,34 @@ namespace RealEstate.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Deals_PropertyId",
                 table: "Deals",
-                column: "PropertyId");
+                column: "PropertyId",
+                unique: true,
+                filter: "[PropertyId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Deals_SalespersonId",
                 table: "Deals",
                 column: "SalespersonId");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_Properties_Customers_CustomerId",
+            migrationBuilder.CreateIndex(
+                name: "IX_Properties_CustomerId",
                 table: "Properties",
-                column: "CustomerId",
-                principalTable: "Customers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                column: "CustomerId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Properties_Customers_CustomerId",
-                table: "Properties");
-
             migrationBuilder.DropTable(
                 name: "Deals");
 
             migrationBuilder.DropTable(
+                name: "Properties");
+
+            migrationBuilder.DropTable(
                 name: "Salespeople");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_Properties_Customers_CustomerId",
-                table: "Properties",
-                column: "CustomerId",
-                principalTable: "Customers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
+            migrationBuilder.DropTable(
+                name: "Customers");
         }
     }
 }

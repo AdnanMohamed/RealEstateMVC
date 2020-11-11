@@ -1,0 +1,86 @@
+﻿<header class="p-5 bg-success">
+    <h1 class="display-4 text-light text-capitalize">deal form</h1>
+</header>
+@model DealModel;
+<section id="customerForm p-5">
+    <div class="container mt-3">
+        <div class="row my-3">
+            <div class="card col-10 col-sm-8 col-md-6 mx-auto text-center bg-secondary p-3">
+                <div class="card-header">
+                    <h3 class="card-title text-uppercase">
+                        <strong>make a deal</strong>
+                    </h3>
+                </div>
+
+                <!-- form -->
+                <form method="post" asp-controller="Deals" asp-action="AddNewDeal">
+
+                    <div class="form-group mt-4">
+                        <input asp-for="Id" class="form-control" placeholder="Deal ID" id="dealID">
+                        <span asp-validation-for="Id" class="text-danger"></span>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="salesperson">Salesperson:</label>
+                        </div>
+                        <select asp-for="SalespersonId" class="custom-select" asp-items="ViewBag.Salespeople" id="salesperson">
+                            <option value="">Select Salesperson</option>
+                        </select>
+                    </div>
+                    <span asp-validation-for="SalespersonId" class="text-danger"></span>
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="buyer">Buyer:</label>
+                        </div>
+                        <select asp-for="CustomerId" class="custom-select" id="buyer" asp-items="ViewBag.Customers">
+                            <option value="">Select Buyer</option>
+                        </select>
+                        <div class="input-group-append">
+                            <a asp-controller="Customers" asp-action="AddNewCustomer" class="btn btn-primary">create new Buyer</a>
+                        </div>
+                    </div>
+                    <span asp-validation-for="CustomerId" class="text-danger"></span>
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="property">Property:</label>
+                        </div>
+                        <select asp-for="PropertyId" class="custom-select" id="property" asp-items="ViewBag.Properties">
+                            <option value="">Select Property</option>
+                        </select>
+                    </div>
+                    <span asp-validation-for="PropertyId" class="text-danger"></span>
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="price">
+                                <i class="fas fa-coins"></i>
+                            </label>
+                        </div>
+                        <input id="price" asp-for="Price" class="form-control">
+                    </div>
+                    <span asp-validation-for="Price" class="text-danger"></span>
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="price">
+                                Commission
+                            </label>
+                        </div>
+                        <input id="commission" asp-for="Commission" class="form-control"
+                               placeholder="0-50%">
+                    </div>
+                    <span asp-validation-for="Commission" class="text-danger"></span>
+
+                    <button type="submit" class="btn btn-block btn-outline-warning text-uppercase">
+                        deal
+                    </button>
+                </form>
+                <!-- end form -->
+            </div>
+            <!-- end of card -->
+        </div>
+    </div>
+</section>

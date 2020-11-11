@@ -9,5 +9,7 @@ namespace RealEstate.Data
     {
         public int Id { set; get; }
         public string Name { set; get; }
+
+        public List<Deal> Deals { set; get; } = new List<Deal>();
     }
 }

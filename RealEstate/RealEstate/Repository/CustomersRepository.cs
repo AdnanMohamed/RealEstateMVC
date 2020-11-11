@@ -24,7 +24,9 @@ namespace RealEstate.Repository
                 Id = model.Id,
                 Email = model.Email,
                 Phone = model.Phone,
-                Name = model.Name
+                Name = model.Name,
+                Properties = new List<Property>(),
+                Deals = new List<Deal>()
             };
 
             await _context.Customers.AddAsync(newCustomer);
@@ -46,7 +48,7 @@ namespace RealEstate.Repository
                         Id = customer.Id,
                         Name = customer.Name,
                         Email = customer.Email,
-                        Phone = customer.Phone
+                        Phone = customer.Phone,
                     });
                 }
             }

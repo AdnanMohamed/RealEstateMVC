@@ -24,13 +24,46 @@ namespace RealEstate.Repository
                     {
                         Id = deal.Id,
                         Customer = _RealEstateDB.Customers.Where(cust => cust.Id == deal.CustomerId).FirstOrDefault().Name,
-                        // Seller
+                        //Seller = _RealEstateDB.Customers.Find(_RealEstateDB.Properties.Find(deal.PropertyId).CustomerId).Name,
                         Commission = deal.Commission,
                         Price = deal.Price,
+                        // buyer
                         CustomerId = deal.CustomerId,
                         PropertyId = deal.PropertyId,
+                        SalespersonId = deal.SalespersonId,
+                        Date = deal.CreatedOn.Date.ToString(),
                         Salesperson = _RealEstateDB.Salespeople.Where(person => person.Id == deal.SalespersonId).FirstOrDefault().Name
+                        
                     }).ToListAsync();
+        }
+
+        public async Task<string> AddNewDeal(DealModel dealModel)
+        {
+            Deal deal = new Deal()
+            {
+                Id = dealModel.Id,
+                CustomerId = dealModel.CustomerId,
+                PropertyId = dealModel.PropertyId,
+                SalespersonId = dealModel.SalespersonId,
+                Commission = dealModel.Commission,
+                Price = dealModel.Price,
+                CreatedOn = DateTime.Now
+            };
+            await _RealEstateDB.Deals.AddAsync(deal);
+            await _RealEstateDB.SaveChangesAsync();
+            return dealModel.Id;
+        }
+
+        public async Task<bool> DeleteDeal(string id)
+        {
+            Deal deal = await _RealEstateDB.Deals.FindAsync(id);
+            if (deal != null)
+            {
+                _RealEstateDB.Deals.Remove(deal);
+                await _RealEstateDB.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
     }
 }
