@@ -10,22 +10,23 @@ namespace RealEstate.Controllers
 {
     public class CustomersController : Controller
     {
-        private readonly CustomersRepository _customersDB;  // The table of customers
+        private readonly CustomersRepository _customersRepository;  // The table of customers
 
-        public CustomersController(CustomersRepository customersDB)
+        public CustomersController(CustomersRepository customersRepository)
         {
-            _customersDB = customersDB;
+            _customersRepository = customersRepository;
         }
 
-        public async Task<ViewResult> GetAllCustomers()
+        public async Task<ViewResult> GetAllCustomers(bool deletedCustomer = false)
         {
-            var allCustomers = await _customersDB.getCustomers();
+            var allCustomers = await _customersRepository.getCustomers();
+            ViewBag.DeletedCustomer = deletedCustomer;
             return View(allCustomers);
         }
 
         public async Task<CustomerModel> GetCustomer(string id)
         {
-            return await _customersDB.GetCustomer(id);
+            return await _customersRepository.GetCustomer(id);
         }
         public ViewResult AddNewCustomer(bool isSuccess = false, string customerId = "")
         {
@@ -34,19 +35,12 @@ namespace RealEstate.Controllers
             return View();
         }
 
-        public async Task<ViewResult> UpdateCustomer(string id, bool isSuccess = false)
-        {
-            ViewBag.IsSuccess = isSuccess;
-            CustomerModel customer = await _customersDB.GetCustomer(id);
-            return View(customer);
-        }
-
         [HttpPost]
         public async Task<IActionResult> AddNewCustomer(CustomerModel customer)
         {
             if (ModelState.IsValid)
             {
-                string id = await _customersDB.AddNewCustomer(customer);
+                string id = await _customersRepository.AddNewCustomer(customer);
                 return RedirectToAction(nameof(AddNewCustomer), new { isSuccess = true, customerId = id });
             }
             ViewBag.IsSuccess = false;
@@ -54,11 +48,11 @@ namespace RealEstate.Controllers
             return View();
         }
 
-        [HttpPost]
-        public async Task<IActionResult> DeleteCustomer(string id)
+        public async Task<ViewResult> UpdateCustomer(string id, bool isSuccess = false)
         {
-            await _customersDB.DeleteCustomer(id);
-            return RedirectToAction(nameof(GetAllCustomers));
+            ViewBag.IsSuccess = isSuccess;
+            CustomerModel customer = await _customersRepository.GetCustomer(id);
+            return View(customer);
         }
 
         [HttpPost]
@@ -66,11 +60,20 @@ namespace RealEstate.Controllers
         {
             if (ModelState.IsValid)
             {
-                _customersDB.UpdateCustomer(customer);
+                _customersRepository.UpdateCustomer(customer);
                 return RedirectToAction(nameof(UpdateCustomer), new { isSuccess = true });
             }
             ViewBag.IsSuccess = false;
             return View(customer);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteCustomer(string id)
+        {
+            ViewBag.DeletedCustomer = await _customersRepository.DeleteCustomer(id);
+            return RedirectToAction(nameof(GetAllCustomers), new { deletedCustomer = ViewBag.DeletedCustomer });
+        }
+
+
     }
 }

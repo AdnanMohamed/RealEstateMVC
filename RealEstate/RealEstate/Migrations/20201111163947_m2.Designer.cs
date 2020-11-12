@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RealEstate.Data;
 
 namespace RealEstate.Migrations
 {
     [DbContext(typeof(RealEstateContext))]
-    partial class RealEstateContextModelSnapshot : ModelSnapshot
+    [Migration("20201111163947_m2")]
+    partial class m2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,7 +67,9 @@ namespace RealEstate.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.HasIndex("PropertyId");
+                    b.HasIndex("PropertyId")
+                        .IsUnique()
+                        .HasFilter("[PropertyId] IS NOT NULL");
 
                     b.HasIndex("SalespersonId");
 
@@ -78,7 +82,7 @@ namespace RealEstate.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CustomerId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Location")
                         .HasColumnType("nvarchar(max)");
@@ -90,6 +94,8 @@ namespace RealEstate.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
 
                     b.ToTable("Properties");
                 });
@@ -117,15 +123,23 @@ namespace RealEstate.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("RealEstate.Data.Property", "Property")
-                        .WithMany("Deals")
-                        .HasForeignKey("PropertyId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .WithOne("Deal")
+                        .HasForeignKey("RealEstate.Data.Deal", "PropertyId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("RealEstate.Data.Salesperson", "Salesperson")
                         .WithMany("Deals")
                         .HasForeignKey("SalespersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("RealEstate.Data.Property", b =>
+                {
+                    b.HasOne("RealEstate.Data.Customer", "Customer")
+                        .WithMany("Properties")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618
         }

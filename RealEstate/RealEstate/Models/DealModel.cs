@@ -14,11 +14,11 @@ namespace RealEstate.Models
         public int SalespersonId { set; get; }
         public string Salesperson { set; get; }
         [Required(ErrorMessage = "Buyer is required.")]
-        public string? CustomerId { set; get; }
+        public string CustomerId { set; get; }
         public string Customer { set; get; }
         [Required(ErrorMessage = "Property is required.")]
         public string PropertyId { set; get; }
-        public string Seller { set; get; }
+        //public string SellerId { set; get; }
         [Required(ErrorMessage = "Price is required.")]
         [Range(1, 999999999)]
         public decimal Price { set; get; }

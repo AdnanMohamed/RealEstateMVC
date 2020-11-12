@@ -26,6 +26,7 @@ namespace RealEstate.Repository
                 PropertyType = propertyModel.PropertyType,
                 LocationURL = propertyModel.LocationURL,
                 Location = propertyModel.Location,
+                //CustomerName = _context.Customers.Find(propertyModel.CustomerId).Name
             };
             await _context.Properties.AddAsync(property);
             await _context.SaveChangesAsync();
@@ -47,8 +48,8 @@ namespace RealEstate.Repository
                         Location = property.Location,
                         LocationURL = property.LocationURL,
                         PropertyType = property.PropertyType,
-                        CustomerName = _context.Customers.Where(cust => cust.Id == property.CustomerId).FirstOrDefault().Name
-                    }) ;
+                        CustomerName = _context.Customers.Find(property.CustomerId).Name
+                    });
                 }
             }
             return properties;            
@@ -61,7 +62,7 @@ namespace RealEstate.Repository
             {
                 Id = p.Id,
                 CustomerId = p.CustomerId,
-                CustomerName = _context.Customers.Where(cust => cust.Id == p.CustomerId).FirstOrDefault().Name,
+                CustomerName = _context.Customers.Find(p.CustomerId).Name,
                 PropertyType = p.PropertyType,
                 Location = p.Location,
                 LocationURL = p.LocationURL
@@ -86,6 +87,7 @@ namespace RealEstate.Repository
             {
                 Id = propertyModel.Id,
                 CustomerId = propertyModel.CustomerId,
+                //CustomerName = propertyModel.CustomerName,
                 PropertyType = propertyModel.PropertyType,
                 Location = propertyModel.Location,
                 LocationURL = propertyModel.LocationURL

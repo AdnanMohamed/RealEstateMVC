@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RealEstate.Data;
 
 namespace RealEstate.Migrations
 {
     [DbContext(typeof(RealEstateContext))]
-    partial class RealEstateContextModelSnapshot : ModelSnapshot
+    [Migration("20201111175527_m3")]
+    partial class m3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,7 +58,7 @@ namespace RealEstate.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("PropertyId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("SalespersonId")
                         .HasColumnType("int");
@@ -64,8 +66,6 @@ namespace RealEstate.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
-
-                    b.HasIndex("PropertyId");
 
                     b.HasIndex("SalespersonId");
 
@@ -78,7 +78,7 @@ namespace RealEstate.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CustomerId")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Location")
                         .HasColumnType("nvarchar(max)");
@@ -86,10 +86,19 @@ namespace RealEstate.Migrations
                     b.Property<string>("LocationURL")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PropertyId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("PropertyType")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "CustomerId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("PropertyId")
+                        .IsUnique()
+                        .HasFilter("[PropertyId] IS NOT NULL");
 
                     b.ToTable("Properties");
                 });
@@ -116,16 +125,24 @@ namespace RealEstate.Migrations
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("RealEstate.Data.Property", "Property")
-                        .WithMany("Deals")
-                        .HasForeignKey("PropertyId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("RealEstate.Data.Salesperson", "Salesperson")
                         .WithMany("Deals")
                         .HasForeignKey("SalespersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("RealEstate.Data.Property", b =>
+                {
+                    b.HasOne("RealEstate.Data.Customer", null)
+                        .WithMany("Properties")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RealEstate.Data.Deal", "Deal")
+                        .WithOne("Property")
+                        .HasForeignKey("RealEstate.Data.Property", "PropertyId");
                 });
 #pragma warning restore 612, 618
         }

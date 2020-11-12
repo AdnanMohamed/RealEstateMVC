@@ -23,36 +23,36 @@ namespace RealEstate.Data
         {
             // one customer to many properties
             // deleting a customer deletes his/her properties
-            modelBuilder.Entity<Customer>()
-                .HasMany(p => p.Properties)
-                .WithOne(c => c.Customer)
-                .OnDelete(DeleteBehavior.Cascade);
+            //modelBuilder.Entity<Customer>()
+            //    .HasMany(p => p.Properties)
+            //    .WithOne(c => c.Customer)
+            //    .OnDelete(DeleteBehavior.Restrict);
 
             // one customer to many deals
             // deleting a customer deletes his/ her deals.
             modelBuilder.Entity<Customer>()
                 .HasMany(d => d.Deals)
                 .WithOne(c => c.Customer)
-                .IsRequired(true)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+                .OnDelete(DeleteBehavior.Restrict);
 
             // one property to one deal
             // deleting the property deletes its associated deal.
             modelBuilder.Entity<Property>()
-                .HasOne(p => p.Deal)
+                .HasMany(p => p.Deals)
                 .WithOne(d => d.Property)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
-            //modelBuilder.Entity<Deal>()
-            //    .HasOne(d => d.Customer)
-            //    .WithMany(c => c.Deals)
-            //    .IsRequired(false)
-            //    .OnDelete(DeleteBehavior.NoAction);
 
-            //modelBuilder.Entity<Deal>()
-            //    .HasOne(d => d.Property)
-            //    .WithOne(p => p.Deal)
-            //    .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<Deal>()
+                .HasOne(d => d.Customer)
+                .WithMany(c => c.Deals)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Deal>()
+                .HasOne(d => d.Property)
+                .WithMany(p => p.Deals)
+                .OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿@model DealModel;
 <header class="p-5 bg-success">
-    <h1 class="display-4 text-light text-capitalize">deal form</h1>
+    <h1 class="display-4 text-light text-capitalize">Edit Deal</h1>
 </header>
 
 <section id="customerForm p-5">
@@ -8,7 +8,7 @@
         @if (ViewBag.IsSuccess)
         {
             <div class="alert alert-success alert-dismissible fade show w-50 m-auto" role="alert">
-                <strong>Great!</strong> You made a new deal! <br />
+                <strong>Great!</strong> You updated the deal! <br />
                 Click <a asp-controller="Deals" asp-action="GetAllDeals">here</a> to view your deals
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -19,15 +19,15 @@
             <div class="card col-10 col-sm-8 col-md-6 mx-auto text-center bg-secondary p-3">
                 <div class="card-header">
                     <h3 class="card-title text-uppercase">
-                        <strong>make a deal</strong>
+                        <strong>edit the deal</strong>
                     </h3>
                 </div>
 
                 <!-- form -->
-                <form method="post" asp-controller="Deals" asp-action="AddNewDeal">
+                <form method="post" asp-controller="Deals" asp-action="UpdateDeal">
 
                     <div class="form-group mt-4">
-                        <input asp-for="Id" class="form-control" placeholder="Deal ID" id="dealID">
+                        <input asp-for="Id" class="form-control font-weight-bold" value="@Model.Id" id="dealID" disabled>
                         <span asp-validation-for="Id" class="text-danger"></span>
                     </div>
 
@@ -36,7 +36,7 @@
                             <label class="input-group-text" for="salesperson">Salesperson:</label>
                         </div>
                         <select asp-for="SalespersonId" class="custom-select" asp-items="ViewBag.Salespeople" id="salesperson">
-                            <option value="">Select Salesperson</option>
+                            <option value="@Model.SalespersonId">@Model.Salesperson</option>
                         </select>
                     </div>
                     <span asp-validation-for="SalespersonId" class="text-danger"></span>
@@ -46,7 +46,7 @@
                             <label class="input-group-text" for="buyer">Buyer:</label>
                         </div>
                         <select asp-for="CustomerId" class="custom-select" id="buyer" asp-items="ViewBag.Customers">
-                            <option value="">Select Buyer</option>
+                            <option value="@Model.CustomerId">@Model.Customer</option>
                         </select>
                         <div class="input-group-append">
                             <a asp-controller="Customers" asp-action="AddNewCustomer" class="btn btn-primary">create new Buyer</a>
@@ -59,7 +59,7 @@
                             <label class="input-group-text" for="property">Property:</label>
                         </div>
                         <select asp-for="PropertyId" class="custom-select" id="property" asp-items="ViewBag.Properties">
-                            <option value="">Select Property</option>
+                            <option value="@Model.PropertyId">@Model.PropertyId</option>
                         </select>
                     </div>
                     <span asp-validation-for="PropertyId" class="text-danger"></span>
@@ -70,17 +70,17 @@
                                 <i class="fas fa-coins"></i>
                             </label>
                         </div>
-                        <input id="price" asp-for="Price" class="form-control">
+                        <input id="price" value="@Model.Price" asp-for="Price" class="form-control">
                     </div>
                     <span asp-validation-for="Price" class="text-danger"></span>
 
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <label class="input-group-text" for="price">
+                            <label class="input-group-text" for="commision">
                                 Commission
                             </label>
                         </div>
-                        <input id="commission" asp-for="Commission" class="form-control"
+                        <input id="commission" value="@Model.Commission" asp-for="Commission" class="form-control"
                                placeholder="0-50%">
                     </div>
                     <span asp-validation-for="Commission" class="text-danger"></span>

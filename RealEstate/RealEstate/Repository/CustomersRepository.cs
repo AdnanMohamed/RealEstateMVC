@@ -25,7 +25,6 @@ namespace RealEstate.Repository
                 Email = model.Email,
                 Phone = model.Phone,
                 Name = model.Name,
-                Properties = new List<Property>(),
                 Deals = new List<Deal>()
             };
 
@@ -63,14 +62,14 @@ namespace RealEstate.Repository
                 Id = cust.Id,
                 Name = cust.Name,
                 Email = cust.Email,
-                Phone = cust.Phone
+                Phone = cust.Phone,
             };
         }
 
         public async Task<bool> DeleteCustomer(string id)
         {
             var cust = await _context.Customers.FindAsync(id);
-            if (cust != null)
+            if (cust != null && cust.Deals.Count == 0)
             {
                 _context.Customers.Remove(cust);
                 await _context.SaveChangesAsync();
@@ -86,18 +85,11 @@ namespace RealEstate.Repository
                 Id = customerModel.Id,
                 Name = customerModel.Name,
                 Email = customerModel.Email,
-                Phone = customerModel.Phone
+                Phone = customerModel.Phone,
             };
             _context.Customers.Update(customer);
             _context.SaveChanges();
         }
 
-        private List<CustomerModel> DataSource()
-        {
-            return new List<CustomerModel>()
-            {
-                new CustomerModel(){Id="32434", Name="Adnan Mohamed", Email="adnan@gmail.com", Phone="2345345"}
-            };
-        }
     }
 }

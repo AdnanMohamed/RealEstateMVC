@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RealEstate.Data;
 
 namespace RealEstate.Migrations
 {
     [DbContext(typeof(RealEstateContext))]
-    partial class RealEstateContextModelSnapshot : ModelSnapshot
+    [Migration("20201112151521_m4")]
+    partial class m4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,6 +80,9 @@ namespace RealEstate.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CustomerId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CustomerName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Location")

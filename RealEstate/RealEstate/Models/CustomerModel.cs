@@ -10,7 +10,6 @@ namespace RealEstate.Models
     public class CustomerModel
     {
         [Required(ErrorMessage = "Please Enter the Customer's CPR")]
-        [Display(Description = "CPR")]
         [RegularExpression("[0-9]{9}", ErrorMessage = "This CPR is Invalid.")]
         public string Id { get; set; }
 

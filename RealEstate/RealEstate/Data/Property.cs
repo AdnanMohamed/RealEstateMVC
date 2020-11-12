@@ -12,7 +12,7 @@ namespace RealEstate.Data
         public string Location { get; set; }
         public string LocationURL { get; set; }
         public string CustomerId { get; set; }
-        public Customer Customer { get; set; }
-        public Deal Deal { get; set; }
+        //public string CustomerName { get; set; }
+        public ICollection<Deal> Deals { get; set; }
     }
 }

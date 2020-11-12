@@ -16,7 +16,6 @@ namespace RealEstate.Data
         public string Email { get; set; }
         public string Phone { get; set; }
 
-        public virtual ICollection<Property> Properties { get; set; }
-        public virtual ICollection<Deal> Deals { get; set; }
+        public ICollection<Deal> Deals { get; set; } = new List<Deal>();
     }
 }

@@ -12,16 +12,16 @@ namespace RealEstate.Controllers
 {
     public class PropertiesController : Controller
     {
-        private readonly PropertiesRepository propertiesDB;
-        private readonly CustomersRepository customersDB;
+        private readonly PropertiesRepository _propertiesRepository;
+        private readonly CustomersRepository _customersRepository;
         public PropertiesController(PropertiesRepository propertiesRepository, CustomersRepository customersRepository)
         {
-            propertiesDB = propertiesRepository;
-            customersDB = customersRepository;
+            _propertiesRepository = propertiesRepository;
+            _customersRepository = customersRepository;
         }
         public async Task<IActionResult> GetAllProperties()
         {
-            var properties = await propertiesDB.GetAllProperties();
+            var properties = await _propertiesRepository.GetAllProperties();
             return View(properties);
         }
 
@@ -36,7 +36,7 @@ namespace RealEstate.Controllers
             };
 
             // Getting the Customers from the DB for 'owner' drop-down
-            ViewBag.Customers = new SelectList(await customersDB.getCustomers(), "Id", "Name");
+            ViewBag.Customers = new SelectList(await _customersRepository.getCustomers(), "Id", "Name");
 
             ViewBag.isSuccess = isSuccess;
             ViewBag.PropertyId = PropertyId;
@@ -47,7 +47,7 @@ namespace RealEstate.Controllers
         public async Task<IActionResult> AddNewProperty(PropertyModel propertyModel)
         {
             // Getting the Customers from the DB for 'owner' drop-down
-            ViewBag.Customers = new SelectList(await customersDB.getCustomers(), "Id", "Name");
+            ViewBag.Customers = new SelectList(await _customersRepository.getCustomers(), "Id", "Name");
 
             // Creating the list of property types for the drop-down.
             ViewBag.PropertyTypes = new List<SelectListItem>()
@@ -59,7 +59,7 @@ namespace RealEstate.Controllers
 
             if (ModelState.IsValid)
             {
-                string id = await propertiesDB.AddNewProperty(propertyModel);   // saving the property id.
+                string id = await _propertiesRepository.AddNewProperty(propertyModel);   // saving the property id.
                 return RedirectToAction(nameof(AddNewProperty), new { isSuccess = true, PropertyId = id });
             }
 
@@ -70,17 +70,17 @@ namespace RealEstate.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteProperty(string id)
         {
-            await propertiesDB.DeleteProperty(id);
+            await _propertiesRepository.DeleteProperty(id);
             return RedirectToAction(nameof(GetAllProperties));
         }
 
         public async Task<ViewResult> UpdateProperty(string id, bool isSuccess = false)
         {
             ViewBag.IsSuccess = isSuccess;
-            PropertyModel propModel = await propertiesDB.GetProperty(id);
+            PropertyModel propModel = await _propertiesRepository.GetProperty(id);
 
             // Getting the Customers from the DB for 'owner' drop-down
-            ViewBag.Customers = new SelectList(await customersDB.getCustomers(), "Id", "Name");
+            ViewBag.Customers = new SelectList(await _customersRepository.getCustomers(), "Id", "Name");
 
             // Creating the list of property types for the drop-down.
             ViewBag.PropertyTypes = new List<SelectListItem>()
@@ -96,7 +96,7 @@ namespace RealEstate.Controllers
         public async Task<IActionResult> UpdateProperty(PropertyModel propertyModel)
         {
             // Getting the Customers from the DB for 'owner' drop-down
-            ViewBag.Customers = new SelectList(await customersDB.getCustomers(), "Id", "Name");
+            ViewBag.Customers = new SelectList(await _customersRepository.getCustomers(), "Id", "Name");
 
             // Creating the list of property types for the drop-down.
             ViewBag.PropertyTypes = new List<SelectListItem>()
@@ -108,7 +108,7 @@ namespace RealEstate.Controllers
 
             if (ModelState.IsValid)
             {
-                propertiesDB.UpdateProperty(propertyModel);
+                _propertiesRepository.UpdateProperty(propertyModel);
                 return RedirectToAction(nameof(UpdateProperty), new { isSuccess = true });
             }
             ViewBag.IsSuccess = false;

@@ -71,5 +71,38 @@ namespace RealEstate.Controllers
             await dealsDB.DeleteDeal(id);
             return RedirectToAction(nameof(GetAllDeals));
         }
+
+        public async Task<ViewResult> UpdateDeal(string id, bool isSuccess = false)
+        {
+            // Getting the Customers from the DB for 'Buyer' drop-down
+            ViewBag.Customers = new SelectList(await customersDB.getCustomers(), "Id", "Name");
+            // Getting the Properties from the DB for 'Property' drop-down
+            ViewBag.Properties = new SelectList(await propertiesDB.GetAllProperties(), "Id", "Id");
+            // Getting the Salespeople from the DB for 'Salesperson' drop-down
+            ViewBag.Salespeople = new SelectList(await salespeopleDB.GetSalespeople(), "Id", "Name");
+
+            ViewBag.IsSuccess = isSuccess;
+
+            return View(await dealsDB.GetDeal(id));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateDeal (DealModel dealModel)
+        {
+            ViewBag.Customers = new SelectList(await customersDB.getCustomers(), "Id", "Name");
+            // Getting the Properties from the DB for 'Property' drop-down
+            ViewBag.Properties = new SelectList(await propertiesDB.GetAllProperties(), "Id", "Id");
+            // Getting the Salespeople from the DB for 'Salesperson' drop-down
+            ViewBag.Salespeople = new SelectList(await salespeopleDB.GetSalespeople(), "Id", "Name");
+
+            if (ModelState.IsValid)
+            {
+                dealsDB.UpdateDeal(dealModel);
+                return RedirectToAction(nameof(UpdateDeal), new {dealModel.Id, isSuccess = true});
+            }
+            ViewBag.IsSuccess = false;
+
+            return View();
+        }
     }
 }
