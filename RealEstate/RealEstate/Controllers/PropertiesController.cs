@@ -110,7 +110,7 @@ namespace RealEstate.Controllers
             {
                 _propertiesRepository.UpdateProperty(propertyModel);
                 return RedirectToAction(nameof(UpdateProperty), new { isSuccess = true });
-            }
+            } 
             ViewBag.IsSuccess = false;
             return View(propertyModel);
         }

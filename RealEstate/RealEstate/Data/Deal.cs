@@ -9,7 +9,7 @@ namespace RealEstate.Data
     public class Deal
     {
         public string Id { set; get; }
-        public int SalespersonId { set; get; }
+        public string SalespersonId { set; get; }
         public string CustomerId { set; get; }
         public string PropertyId { set; get; }
         public decimal Price { set; get; }

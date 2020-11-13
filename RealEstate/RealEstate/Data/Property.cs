@@ -13,6 +13,6 @@ namespace RealEstate.Data
         public string LocationURL { get; set; }
         public string CustomerId { get; set; }
         //public string CustomerName { get; set; }
-        public ICollection<Deal> Deals { get; set; }
+        public ICollection<Deal> Deals { get; set; } = new List<Deal>();
     }
 }

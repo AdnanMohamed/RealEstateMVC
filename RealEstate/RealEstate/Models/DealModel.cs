@@ -11,7 +11,7 @@ namespace RealEstate.Models
         [Required(ErrorMessage = "The Deal should have an ID.")]
         public string Id { set; get; }
         [Required(ErrorMessage = "Salesperson is required.")]
-        public int SalespersonId { set; get; }
+        public string SalespersonId { set; get; }
         public string Salesperson { set; get; }
         [Required(ErrorMessage = "Buyer is required.")]
         public string CustomerId { set; get; }

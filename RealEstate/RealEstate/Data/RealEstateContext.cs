@@ -42,17 +42,29 @@ namespace RealEstate.Data
                 .WithOne(d => d.Property)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<Salesperson>()
+                .HasMany(s => s.Deals)
+                .WithOne(d => d.Salesperson)
+                .OnDelete(DeleteBehavior.Restrict);
+
 
             modelBuilder.Entity<Deal>()
                 .HasOne(d => d.Customer)
                 .WithMany(c => c.Deals)
+                .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Deal>()
                 .HasOne(d => d.Property)
                 .WithMany(p => p.Deals)
+                .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
-
+            
+            modelBuilder.Entity<Deal>()
+                .HasOne(d => d.Salesperson)
+                .WithMany(s => s.Deals)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

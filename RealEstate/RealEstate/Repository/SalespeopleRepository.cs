@@ -26,5 +26,15 @@ namespace RealEstate.Repository
                         Name = salesperson.Name
                     }).ToListAsync();
         }
+
+        public async Task<SalespersonModel> GetSalesperson(string id)
+        {
+            Salesperson salesperson = await _RealEstateDB.Salespeople.FindAsync(id);
+            return new SalespersonModel()
+            {
+                Id = salesperson.Id,
+                Name = salesperson.Name
+            };
+        }
     }
 }
