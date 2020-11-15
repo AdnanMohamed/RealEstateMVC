@@ -1,0 +1,64 @@
+﻿@model RealEstate.Models.SigninModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Signin</title>
+
+    <environment include="Development">
+        <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+        <script src="~/js/all.js"></script>
+    </environment>
+
+    <environment exclude="Development">
+        <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+        <script src="~/js/all.js"></script>
+    </environment>
+</head>
+<body>
+
+    <div class="container p-3">
+        <h4>Signin</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <form method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Email" class="control-label"></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Password" class="control-label"></label>
+                        <input asp-for="Password" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="RememberMe" /> @Html.DisplayNameFor(model => model.RememberMe)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-8">
+                <img class="img-fluid" src="~/images/welcome.png" />
+            </div>
+        </div>
+
+        <div>
+            <p>Click <a asp-controller="Accounts" asp-action="Signup">here</a> to register a new account.</p>
+        </div>
+    </div>
+
+</body>
+</html>

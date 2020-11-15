@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RealEstate.Data
 {
-    public class RealEstateContext : DbContext
+    public class RealEstateContext : IdentityDbContext<ApplicationUser>
     {
         public RealEstateContext(DbContextOptions<RealEstateContext> options)
             : base(options)
@@ -21,12 +23,8 @@ namespace RealEstate.Data
 
         override protected void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // one customer to many properties
-            // deleting a customer deletes his/her properties
-            //modelBuilder.Entity<Customer>()
-            //    .HasMany(p => p.Properties)
-            //    .WithOne(c => c.Customer)
-            //    .OnDelete(DeleteBehavior.Restrict);
+            base.OnModelCreating(modelBuilder);
+
 
             // one customer to many deals
             // deleting a customer deletes his/ her deals.

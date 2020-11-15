@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealEstate.Models;
 using RealEstate.Repository;
@@ -29,6 +30,8 @@ namespace RealEstate.Controllers
         {
             return await _customersRepository.GetCustomer(id);
         }
+
+        [Authorize]
         public ViewResult AddNewCustomer(bool isSuccess = false, string customerId = "")
         {
             ViewBag.IsSuccess = isSuccess;

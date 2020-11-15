@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RealEstate.Data;
+using RealEstate.Helpers;
 using RealEstate.Repository;
 
 namespace RealEstate
@@ -32,17 +33,21 @@ namespace RealEstate
             services.AddDbContext<RealEstateContext>(options =>
                 options.UseSqlServer(_configuration["ConnectionStrings:Default"])
             );
-#if DEBUG
-            services.AddRazorPages().AddRazorRuntimeCompilation();
-#endif
-            //services.AddIdentity<IdentityUser, IdentityRole>()
-            //    .AddEntityFrameworkStores<RealEstateContext>();
+            //#if DEBUG
+            //            services.AddRazorPages().AddRazorRuntimeCompilation();
+            //#endif
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<RealEstateContext>();
+
+            services.ConfigureApplicationCookie(configure =>
+                  configure.LoginPath = _configuration["Application:SigninPath"]);
 
             services.AddScoped<ICustomersRepository, CustomersRepository>();
             services.AddScoped<IPropertiesRepository, PropertiesRepository>();
             services.AddScoped<IDealsRepository, DealsRepository>();
             services.AddScoped<ISalespeopleRepository, SalespeopleRepository>();
-            //services.AddScoped<IAccountRepository, AccountsRepository>();
+            services.AddScoped<IAccountsRepository, AccountsRepository>();
+            services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserClaimsPrincipalFactory>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,6 +61,7 @@ namespace RealEstate
             app.UseRouting();
             app.UseStaticFiles();
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
