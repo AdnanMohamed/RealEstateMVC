@@ -10,11 +10,12 @@ using RealEstate.Repository;
 
 namespace RealEstate.Controllers
 {
+    [Route("[controller]/[action]")]
     public class PropertiesController : Controller
     {
-        private readonly PropertiesRepository _propertiesRepository;
-        private readonly CustomersRepository _customersRepository;
-        public PropertiesController(PropertiesRepository propertiesRepository, CustomersRepository customersRepository)
+        private readonly IPropertiesRepository _propertiesRepository;
+        private readonly ICustomersRepository _customersRepository;
+        public PropertiesController(IPropertiesRepository propertiesRepository, ICustomersRepository customersRepository)
         {
             _propertiesRepository = propertiesRepository;
             _customersRepository = customersRepository;
@@ -25,7 +26,7 @@ namespace RealEstate.Controllers
             return View(properties);
         }
 
-        public async Task<IActionResult> AddNewProperty(bool isSuccess = false, string PropertyId = "")
+        public IActionResult AddNewProperty(bool isSuccess = false, string PropertyId = "")
         {
             // Creating the list of property types for the drop-down.
             ViewBag.PropertyTypes = new List<SelectListItem>()
@@ -35,9 +36,6 @@ namespace RealEstate.Controllers
                 new SelectListItem(){Text = "Flat", Value = "Flat"}
             };
 
-            // Getting the Customers from the DB for 'owner' drop-down
-            ViewBag.Customers = new SelectList(await _customersRepository.getCustomers(), "Id", "Name");
-
             ViewBag.isSuccess = isSuccess;
             ViewBag.PropertyId = PropertyId;
             return View();
@@ -46,9 +44,6 @@ namespace RealEstate.Controllers
         [HttpPost]
         public async Task<IActionResult> AddNewProperty(PropertyModel propertyModel)
         {
-            // Getting the Customers from the DB for 'owner' drop-down
-            ViewBag.Customers = new SelectList(await _customersRepository.getCustomers(), "Id", "Name");
-
             // Creating the list of property types for the drop-down.
             ViewBag.PropertyTypes = new List<SelectListItem>()
             {
@@ -62,7 +57,6 @@ namespace RealEstate.Controllers
                 string id = await _propertiesRepository.AddNewProperty(propertyModel);   // saving the property id.
                 return RedirectToAction(nameof(AddNewProperty), new { isSuccess = true, PropertyId = id });
             }
-
 
             return RedirectToAction();
         }
@@ -79,9 +73,6 @@ namespace RealEstate.Controllers
             ViewBag.IsSuccess = isSuccess;
             PropertyModel propModel = await _propertiesRepository.GetProperty(id);
 
-            // Getting the Customers from the DB for 'owner' drop-down
-            ViewBag.Customers = new SelectList(await _customersRepository.getCustomers(), "Id", "Name");
-
             // Creating the list of property types for the drop-down.
             ViewBag.PropertyTypes = new List<SelectListItem>()
             {
@@ -93,10 +84,8 @@ namespace RealEstate.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateProperty(PropertyModel propertyModel)
+        public IActionResult UpdateProperty(PropertyModel propertyModel)
         {
-            // Getting the Customers from the DB for 'owner' drop-down
-            ViewBag.Customers = new SelectList(await _customersRepository.getCustomers(), "Id", "Name");
 
             // Creating the list of property types for the drop-down.
             ViewBag.PropertyTypes = new List<SelectListItem>()
@@ -109,7 +98,7 @@ namespace RealEstate.Controllers
             if (ModelState.IsValid)
             {
                 _propertiesRepository.UpdateProperty(propertyModel);
-                return RedirectToAction(nameof(UpdateProperty), new { isSuccess = true });
+                return RedirectToAction(nameof(UpdateProperty), new {id = propertyModel.Id, isSuccess = true });
             } 
             ViewBag.IsSuccess = false;
             return View(propertyModel);

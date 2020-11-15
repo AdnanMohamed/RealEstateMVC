@@ -9,16 +9,17 @@ using RealEstate.Repository;
 
 namespace RealEstate.Controllers
 {
+    [Route("[controller]/[action]")]
     public class DealsController : Controller
     {
-        private readonly PropertiesRepository propertiesDB;
-        private readonly CustomersRepository customersDB;
-        private readonly SalespeopleRepository salespeopleDB;
-        private readonly DealsRepository dealsDB;
-        public DealsController(PropertiesRepository propertiesRepository,
-                               CustomersRepository customersRepository,
-                               SalespeopleRepository salespeopleRepository,
-                               DealsRepository dealsRepository)
+        private readonly IPropertiesRepository propertiesDB;
+        private readonly ICustomersRepository customersDB;
+        private readonly ISalespeopleRepository salespeopleDB;
+        private readonly IDealsRepository dealsDB;
+        public DealsController(IPropertiesRepository propertiesRepository,
+                               ICustomersRepository customersRepository,
+                               ISalespeopleRepository salespeopleRepository,
+                               IDealsRepository dealsRepository)
         {
             propertiesDB = propertiesRepository;
             customersDB = customersRepository;

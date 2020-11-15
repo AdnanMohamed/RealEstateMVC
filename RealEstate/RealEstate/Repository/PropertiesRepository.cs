@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RealEstate.Repository
 {
-    public class PropertiesRepository
+    public class PropertiesRepository : IPropertiesRepository
     {
         private readonly RealEstateContext _context = null;
 
@@ -52,7 +52,7 @@ namespace RealEstate.Repository
                     });
                 }
             }
-            return properties;            
+            return properties;
         }
 
         public async Task<PropertyModel> GetProperty(string id)

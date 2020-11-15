@@ -1,4 +1,6 @@
 ﻿@model PropertyModel
+@inject RealEstate.Repository.ICustomersRepository _customersDB
+
 <header class="p-5 bg-success">
     <h1 class="display-4 text-light text-capitalize">property form</h1>
 </header>
@@ -34,7 +36,8 @@
                         <div class="input-group-prepend">
                             <label class="input-group-text" for="owner">Owner:</label>
                         </div>
-                        <select asp-for="CustomerId" class="custom-select" id="owner" asp-items="ViewBag.Customers">
+                        <select asp-for="CustomerId" class="custom-select" id="owner" 
+                          asp-items="(await _customersDB.getCustomers()).Select(customer =>new SelectListItem() { Text = customer.Name, Value = customer.Id })">
                             <option value="">Select Owner</option>
                         </select>
 

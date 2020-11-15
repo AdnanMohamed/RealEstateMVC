@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RealEstate.Repository
 {
-    public class CustomersRepository
+    public class CustomersRepository : ICustomersRepository
     {
         private readonly RealEstateContext _context = null;
 
@@ -38,7 +38,7 @@ namespace RealEstate.Repository
         {
             var customers = new List<CustomerModel>();
             var allCustomers = await _context.Customers.ToListAsync();
-            if(allCustomers?.Any() == true)
+            if (allCustomers?.Any() == true)
             {
                 foreach (var customer in allCustomers)
                 {

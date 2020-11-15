@@ -8,11 +8,12 @@ using RealEstate.Repository;
 
 namespace RealEstate.Controllers
 {
+    [Route("[controller]/[action]")]
     public class CustomersController : Controller
     {
-        private readonly CustomersRepository _customersRepository;  // The table of customers
+        private readonly ICustomersRepository _customersRepository;  // The table of customers
 
-        public CustomersController(CustomersRepository customersRepository)
+        public CustomersController(ICustomersRepository customersRepository)
         {
             _customersRepository = customersRepository;
         }
@@ -61,7 +62,7 @@ namespace RealEstate.Controllers
             if (ModelState.IsValid)
             {
                 _customersRepository.UpdateCustomer(customer);
-                return RedirectToAction(nameof(UpdateCustomer), new { isSuccess = true });
+                return RedirectToAction(nameof(UpdateCustomer), new {id = customer.Id, isSuccess = true });
             }
             ViewBag.IsSuccess = false;
             return View(customer);

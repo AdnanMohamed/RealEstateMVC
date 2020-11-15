@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RealEstate.Repository
 {
-    public class DealsRepository
+    public class DealsRepository : IDealsRepository
     {
         private readonly RealEstateContext _RealEstateDB;
 
@@ -70,7 +70,7 @@ namespace RealEstate.Repository
                 Salesperson = await _RealEstateDB.Salespeople.FindAsync(dealModel.SalespersonId),
                 Property = await _RealEstateDB.Properties.FindAsync(dealModel.PropertyId)
             };
-            
+
             deal.Customer.Deals.Add(deal);
             //Property property = await _RealEstateDB.Properties.FindAsync(deal.PropertyId);
             deal.Property.Deals.Add(deal);
@@ -108,8 +108,8 @@ namespace RealEstate.Repository
                 Price = dealModel.Price,
                 CreatedOn = DateTime.Now,
                 Customer = _RealEstateDB.Customers.Find(dealModel.CustomerId),
-                Salesperson =  _RealEstateDB.Salespeople.Find(dealModel.SalespersonId),
-                Property =  _RealEstateDB.Properties.Find(dealModel.PropertyId)
+                Salesperson = _RealEstateDB.Salespeople.Find(dealModel.SalespersonId),
+                Property = _RealEstateDB.Properties.Find(dealModel.PropertyId)
             };
             deal.Property.CustomerId = deal.CustomerId;
             _RealEstateDB.Deals.Update(deal);

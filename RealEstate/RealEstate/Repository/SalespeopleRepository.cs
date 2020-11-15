@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RealEstate.Repository
 {
-    public class SalespeopleRepository
+    public class SalespeopleRepository : ISalespeopleRepository
     {
         private readonly RealEstateContext _RealEstateDB;
 
@@ -16,7 +16,7 @@ namespace RealEstate.Repository
         {
             _RealEstateDB = realEstateContext;
         }
-        
+
         public async Task<List<SalespersonModel>> GetSalespeople()
         {
             return await _RealEstateDB.Salespeople.Select(salesperson =>
